@@ -35,6 +35,16 @@ export function Post() {
           <a href="#">#tothemoon</a>
         </p>
       </div>
+
+      <form className={styles.commentForm}>
+        <strong>Leave your comment below</strong>
+
+        <textarea placeholder="Your comment" />
+
+        <footer>
+          <button type="submit">Send</button>
+        </footer>
+      </form>
     </article>
   );
 }
