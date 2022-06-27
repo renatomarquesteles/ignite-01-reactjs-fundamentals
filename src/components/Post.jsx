@@ -1,3 +1,4 @@
+import { Avatar } from './Avatar';
 import { Comment } from './Comment';
 import styles from './Post.module.css';
 
@@ -6,10 +7,7 @@ export function Post() {
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <img
-            className={styles.avatar}
-            src="https://avatars.dicebear.com/api/personas/dollar.svg?b=%23228785"
-          />
+          <Avatar src="https://avatars.dicebear.com/api/personas/dollar.svg?b=%23228785" />
           <div className={styles.authorInfo}>
             <strong>Carlos Santana</strong>
             <span>Bitcoin Whale</span>

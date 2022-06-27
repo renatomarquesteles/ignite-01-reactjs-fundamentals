@@ -1,10 +1,14 @@
 import { HandsClapping, Trash } from 'phosphor-react';
+import { Avatar } from './Avatar';
 import styles from './Comment.module.css';
 
 export function Comment() {
   return (
     <div className={styles.comment}>
-      <img src="https://avatars.dicebear.com/api/personas/pqs.svg?b=%23fbffc7" />
+      <Avatar
+        src="https://avatars.dicebear.com/api/personas/pqs.svg?b=%23fbffc7"
+        hasBorder={false}
+      />
 
       <div className={styles.commentBox}>
         <div className={styles.commentContent}>
