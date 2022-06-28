@@ -6,6 +6,51 @@ import styles from './App.module.css';
 
 import './global.css';
 
+const posts = [
+  {
+    id: 1,
+    author: {
+      avatarUrl:
+        'https://avatars.dicebear.com/api/personas/dollar.svg?b=%23228785',
+      name: 'Carlos Santana',
+      role: 'Bitcoin Whale',
+    },
+    content: [
+      { type: 'paragraph', content: 'Hey guys!' },
+      { type: 'paragraph', content: 'Remember to always buy the dip 😁' },
+      {
+        type: 'paragraph',
+        content:
+          'Also, check out my new course on how to get rich by investing in crypto:',
+      },
+      { type: 'link', content: 'https://totallynotascam.com/get-rich' },
+      { type: 'hashtag', content: '#bitcoin' },
+      { type: 'hashtag', content: '#crypto' },
+      { type: 'hashtag', content: '#tothemoon' },
+    ],
+    publishedAt: new Date('2022-06-27 20:29:18'),
+  },
+  {
+    id: 2,
+    author: {
+      avatarUrl:
+        'https://avatars.dicebear.com/api/personas/klkslhklsh.svg?b=%234a75ba',
+      name: 'Michael Kyle',
+      role: 'Gym Bro',
+    },
+    content: [
+      {
+        type: 'paragraph',
+        content: "I'll do one push-up for every Clap on this post",
+      },
+      { type: 'paragraph', content: "Let's go! 💪" },
+      { type: 'hashtag', content: '#gym' },
+      { type: 'hashtag', content: '#fitness' },
+    ],
+    publishedAt: new Date('2022-06-27 13:37:54'),
+  },
+];
+
 export function App() {
   return (
     <div>
@@ -15,7 +60,14 @@ export function App() {
         <Sidebar />
 
         <main>
-          <Post />
+          {posts.map((post) => (
+            <Post
+              key={post.id}
+              author={post.author}
+              content={post.content}
+              publishedAt={post.publishedAt}
+            />
+          ))}
         </main>
       </div>
     </div>

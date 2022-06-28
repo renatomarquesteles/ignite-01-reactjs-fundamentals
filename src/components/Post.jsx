@@ -1,38 +1,61 @@
+import { format, formatDistanceToNow } from 'date-fns';
+import React from 'react';
+
 import { Avatar } from './Avatar';
 import { Comment } from './Comment';
 import styles from './Post.module.css';
 
-export function Post() {
+export function Post({ author, content, publishedAt }) {
+  const publishedDateFormatted = format(publishedAt, 'LLLL d, hh:mm bbbb');
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    addSuffix: true,
+  });
+
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar src="https://avatars.dicebear.com/api/personas/dollar.svg?b=%23228785" />
+          <Avatar src={author.avatarUrl} />
           <div className={styles.authorInfo}>
-            <strong>Carlos Santana</strong>
-            <span>Bitcoin Whale</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
 
-        <time title="June 27, 2022 at 11:03 AM" dateTime="2022-06-27 11:03:30">
-          14min ago
+        <time
+          title={publishedDateFormatted}
+          dateTime={publishedAt.toISOString()}
+        >
+          {publishedDateRelativeToNow}
         </time>
       </header>
 
       <div className={styles.content}>
-        <p>Hey guys!</p>
-        <p>Remember to always buy the dip 😁</p>
-        <p>
-          Also, check out my new course on how to get rich by investing in
-          crypto:
-        </p>
-        <p>
-          <a href="#">https://totallynotascam.com/get-rich</a>
-        </p>
-        <p>
-          <a href="#">#bitcoin</a> <a href="#">#crypto</a>{' '}
-          <a href="#">#tothemoon</a>
-        </p>
+        {content.map((line) => {
+          if (line.type === 'paragraph') {
+            return <p key={line.content}>{line.content}</p>;
+          } else if (line.type === 'link') {
+            return (
+              <p key={line.content}>
+                <a href="#">{line.content}</a>
+              </p>
+            );
+          }
+        })}
+
+        {!!content.find((line) => line.type === 'hashtag') && (
+          <p>
+            {content.map((line) => {
+              if (line.type === 'hashtag') {
+                return (
+                  <React.Fragment key={line.content}>
+                    <a href="#">{line.content}</a>{' '}
+                  </React.Fragment>
+                );
+              }
+            })}
+          </p>
+        )}
       </div>
 
       <form className={styles.commentForm}>
@@ -46,8 +69,6 @@ export function Post() {
       </form>
 
       <div className={styles.commentList}>
-        <Comment />
-        <Comment />
         <Comment />
       </div>
     </article>
