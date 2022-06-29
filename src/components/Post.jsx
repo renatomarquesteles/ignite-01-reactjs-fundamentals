@@ -35,6 +35,10 @@ export function Post({ author, content, postComments, publishedAt }) {
     setNewCommentText(e.target.value);
   }
 
+  function deleteComment(commentId) {
+    setComments(comments.filter((comment) => comment.id !== commentId));
+  }
+
   return (
     <article className={styles.post}>
       <header>
@@ -102,8 +106,10 @@ export function Post({ author, content, postComments, publishedAt }) {
           <Comment
             key={comment.id}
             author={comment.author}
+            commentId={comment.id}
             content={comment.content}
             publishedAt={comment.publishedAt}
+            deleteComment={deleteComment}
           />
         ))}
       </div>

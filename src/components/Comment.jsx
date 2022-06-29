@@ -4,11 +4,21 @@ import { format, formatDistanceToNow } from 'date-fns';
 import { Avatar } from './Avatar';
 import styles from './Comment.module.css';
 
-export function Comment({ author, content, publishedAt }) {
+export function Comment({
+  author,
+  commentId,
+  content,
+  publishedAt,
+  deleteComment,
+}) {
   const publishedDateFormatted = format(publishedAt, 'LLLL d, hh:mm bbbb');
   const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
     addSuffix: true,
   });
+
+  function handleDeleteComment() {
+    deleteComment(commentId);
+  }
 
   return (
     <div className={styles.comment}>
@@ -27,7 +37,7 @@ export function Comment({ author, content, publishedAt }) {
               </time>
             </div>
 
-            <button title="Delete comment">
+            <button title="Delete comment" onClick={handleDeleteComment}>
               <Trash size={24} />
             </button>
           </header>
