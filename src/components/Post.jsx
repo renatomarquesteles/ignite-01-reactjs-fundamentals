@@ -32,12 +32,19 @@ export function Post({ author, content, postComments, publishedAt }) {
   }
 
   function handleNewCommentChange(e) {
+    e.target.setCustomValidity(''); // Removes custom validation message
     setNewCommentText(e.target.value);
+  }
+
+  function handleNewCommentInvalid(e) {
+    e.target.setCustomValidity('Please enter a valid comment'); // Adds custom validation message
   }
 
   function deleteComment(commentId) {
     setComments(comments.filter((comment) => comment.id !== commentId));
   }
+
+  const isNewCommentEmpty = newCommentText.length === 0;
 
   return (
     <article className={styles.post}>
@@ -94,10 +101,14 @@ export function Post({ author, content, postComments, publishedAt }) {
           placeholder="Your comment"
           value={newCommentText}
           onChange={handleNewCommentChange}
+          onInvalid={handleNewCommentInvalid}
+          required
         />
 
         <footer>
-          <button type="submit">Send</button>
+          <button type="submit" disabled={isNewCommentEmpty}>
+            Send
+          </button>
         </footer>
       </form>
 
