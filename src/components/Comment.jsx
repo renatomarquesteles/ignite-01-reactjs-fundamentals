@@ -3,6 +3,7 @@ import { format, formatDistanceToNow } from 'date-fns';
 
 import { Avatar } from './Avatar';
 import styles from './Comment.module.css';
+import { useState } from 'react';
 
 export function Comment({
   author,
@@ -11,6 +12,8 @@ export function Comment({
   publishedAt,
   deleteComment,
 }) {
+  const [clapCount, setClapCount] = useState(0);
+
   const publishedDateFormatted = format(publishedAt, 'LLLL d, hh:mm bbbb');
   const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
     addSuffix: true,
@@ -18,6 +21,10 @@ export function Comment({
 
   function handleDeleteComment() {
     deleteComment(commentId);
+  }
+
+  function handleClapComment() {
+    setClapCount(clapCount + 1);
   }
 
   return (
@@ -56,9 +63,9 @@ export function Comment({
         </div>
 
         <footer>
-          <button>
+          <button onClick={handleClapComment}>
             <HandsClapping />
-            Clap <span>1</span>
+            Clap <span>{clapCount}</span>
           </button>
         </footer>
       </div>
