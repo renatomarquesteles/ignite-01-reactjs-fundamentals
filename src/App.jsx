@@ -28,6 +28,23 @@ const posts = [
       { type: 'hashtag', content: '#crypto' },
       { type: 'hashtag', content: '#tothemoon' },
     ],
+    comments: [
+      {
+        id: 1,
+        author: {
+          avatarUrl:
+            'https://avatars.dicebear.com/api/personas/pqs.svg?b=%23fbffc7',
+          name: 'Chico Santana',
+        },
+        content: [
+          {
+            type: 'paragraph',
+            content: "Thanks!! I'm already making $100k a day 💰",
+          },
+        ],
+        publishedAt: new Date('2022-06-27 20:35:55'),
+      },
+    ],
     publishedAt: new Date('2022-06-27 20:29:18'),
   },
   {
@@ -46,6 +63,23 @@ const posts = [
       { type: 'paragraph', content: "Let's go! 💪" },
       { type: 'hashtag', content: '#gym' },
       { type: 'hashtag', content: '#fitness' },
+    ],
+    comments: [
+      {
+        id: 1,
+        author: {
+          avatarUrl:
+            'https://avatars.dicebear.com/api/personas/klkslhklsh.svg?b=%234a75ba',
+          name: 'Michael Kyle',
+        },
+        content: [
+          {
+            type: 'paragraph',
+            content: 'Clap here!',
+          },
+        ],
+        publishedAt: new Date('2022-06-27 13:38:54'),
+      },
     ],
     publishedAt: new Date('2022-06-27 13:37:54'),
   },
@@ -66,6 +100,7 @@ export function App() {
               author={post.author}
               content={post.content}
               publishedAt={post.publishedAt}
+              postComments={post.comments}
             />
           ))}
         </main>

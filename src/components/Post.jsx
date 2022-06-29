@@ -1,15 +1,39 @@
 import { format, formatDistanceToNow } from 'date-fns';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Avatar } from './Avatar';
 import { Comment } from './Comment';
 import styles from './Post.module.css';
 
-export function Post({ author, content, publishedAt }) {
+export function Post({ author, content, postComments, publishedAt }) {
+  const [comments, setComments] = useState(postComments);
+  const [newCommentText, setNewCommentText] = useState('');
+
   const publishedDateFormatted = format(publishedAt, 'LLLL d, hh:mm bbbb');
   const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
     addSuffix: true,
   });
+
+  function handleCreateNewComment(e) {
+    e.preventDefault();
+
+    const newComment = {
+      id: comments.length + 1,
+      author: {
+        avatarUrl: 'https://github.com/renatomarquesteles.png',
+        name: 'Renato Marques Teles',
+      },
+      content: [{ type: 'paragraph', content: newCommentText }],
+      publishedAt: new Date(),
+    };
+
+    setComments([...comments, newComment]);
+    setNewCommentText('');
+  }
+
+  function handleNewCommentChange(e) {
+    setNewCommentText(e.target.value);
+  }
 
   return (
     <article className={styles.post}>
@@ -58,10 +82,15 @@ export function Post({ author, content, publishedAt }) {
         )}
       </div>
 
-      <form className={styles.commentForm}>
+      <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
         <strong>Leave your comment below</strong>
 
-        <textarea placeholder="Your comment" />
+        <textarea
+          name="comment"
+          placeholder="Your comment"
+          value={newCommentText}
+          onChange={handleNewCommentChange}
+        />
 
         <footer>
           <button type="submit">Send</button>
@@ -69,7 +98,14 @@ export function Post({ author, content, publishedAt }) {
       </form>
 
       <div className={styles.commentList}>
-        <Comment />
+        {comments.map((comment) => (
+          <Comment
+            key={comment.id}
+            author={comment.author}
+            content={comment.content}
+            publishedAt={comment.publishedAt}
+          />
+        ))}
       </div>
     </article>
   );

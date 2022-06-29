@@ -1,25 +1,29 @@
 import { HandsClapping, Trash } from 'phosphor-react';
+import { format, formatDistanceToNow } from 'date-fns';
+
 import { Avatar } from './Avatar';
 import styles from './Comment.module.css';
 
-export function Comment() {
+export function Comment({ author, content, publishedAt }) {
+  const publishedDateFormatted = format(publishedAt, 'LLLL d, hh:mm bbbb');
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    addSuffix: true,
+  });
+
   return (
     <div className={styles.comment}>
-      <Avatar
-        src="https://avatars.dicebear.com/api/personas/pqs.svg?b=%23fbffc7"
-        hasBorder={false}
-      />
+      <Avatar src={author.avatarUrl} hasBorder={false} />
 
       <div className={styles.commentBox}>
         <div className={styles.commentContent}>
           <header>
             <div className={styles.authorAndTime}>
-              <strong>Chico Santana</strong>
+              <strong>{author.name}</strong>
               <time
-                title="June 27, 2022 at 11:08 AM"
-                dateTime="2022-06-27 11:08:30"
+                title={publishedDateFormatted}
+                dateTime={publishedAt.toISOString()}
               >
-                9min ago
+                {publishedDateRelativeToNow}
               </time>
             </div>
 
@@ -28,7 +32,17 @@ export function Comment() {
             </button>
           </header>
 
-          <p>Thanks!! I'm already making $100k a day 💰</p>
+          {content.map((line) => {
+            if (line.type === 'paragraph') {
+              return <p key={line.content}>{line.content}</p>;
+            } else if (line.type === 'link') {
+              return (
+                <p key={line.content}>
+                  <a href="#">{line.content}</a>
+                </p>
+              );
+            }
+          })}
         </div>
 
         <footer>
